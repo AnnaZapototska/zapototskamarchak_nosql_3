@@ -49,11 +49,6 @@ zapototskamarchak_nosql_3/
 └── README.md
 ```
 
-Create `screenshots/` and place the screenshots captured from Neo4j
-Browser there. The filenames above are suggested names.
-
-------------------------------------------------------------------------
-
 # Part 1 --- Graph schema design
 
 ## 1.1. Nodes and relationships
