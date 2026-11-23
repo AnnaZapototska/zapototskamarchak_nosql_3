@@ -1,6 +1,6 @@
 # MovieLens Knowledge Graph Recommendation System
 
-**Homework 3 --- Knowledge Graph for a Recommendation System**\
+**Homework 3 -Knowledge Graph for a Recommendation System**\
 **Database:** Neo4j 5.18 Community Edition\
 **Deployment:** Local Docker container\
 **Dataset:** MovieLens 1M
@@ -14,9 +14,6 @@ are relationships.
 The project covers graph schema design, CSV preparation, batch loading,
 Cypher queries, supernode analysis, and comparison of graph and
 relational database approaches.
-
-**Part 5 (Graph Data Science algorithms) was intentionally skipped.**
-The assignment explicitly marks it as optional and non-graded.
 
 ## Repository structure
 
@@ -49,22 +46,22 @@ zapototskamarchak_nosql_3/
 └── README.md
 ```
 
-# Part 1 --- Graph schema design
+# Part 1 -Graph schema design
 
 ## 1.1. Nodes and relationships
 
 The graph uses three node labels:
 
--   **User** --- `userId`, `gender`, `age`, `occupation`.
--   **Movie** --- `movieId`, `title`. The release year remains embedded
+-   **User** -`userId`, `gender`, `age`, `occupation`.
+-   **Movie** -`movieId`, `title`. The release year remains embedded
     in the title in this implementation; it is not a separate property.
--   **Genre** --- `name`.
+-   **Genre** -`name`.
 
 It uses two relationship types:
 
--   **`(User)-[:RATED {rating, timestamp}]->(Movie)`** --- records a
+-   **`(User)-[:RATED {rating, timestamp}]->(Movie)`** -records a
     user's rating and its timestamp.
--   **`(Movie)-[:HAS_GENRE]->(Genre)`** --- connects a movie to each of
+-   **`(Movie)-[:HAS_GENRE]->(Genre)`** -connects a movie to each of
     its genres.
 
 ## 1.2. Why these entities are nodes and relationships
@@ -132,7 +129,7 @@ belong to multiple genres.
 
 ------------------------------------------------------------------------
 
-# Part 2 --- Data preparation and loading
+# Part 2 -Data preparation and loading
 
 ## 2.1. Dataset and CSV conversion
 
@@ -152,7 +149,7 @@ the graph queries. The year remains embedded in the movie title.
 Verified CSV line counts (including one header row per file):
 
   CSV file          Lines including header   Data rows
-  --------------- ------------------------ -----------
+  ------------------------------------- -----------
   `movies.csv`                       3,884       3,883
   `users.csv`                        6,041       6,040
   `ratings.csv`                  1,000,210   1,000,209
@@ -226,12 +223,12 @@ totals.
 
 ------------------------------------------------------------------------
 
-# Part 3 --- Cypher queries
+# Part 3 -Cypher queries
 
 All six queries are saved in `queries/part3.cypher`. Screenshots should
 show the first ten or fewer visible result rows.
 
-## Query 1 --- Thriller movies with average rating above 4.0
+## Query 1 -Thriller movies with average rating above 4.0
 
 The query traverses from Movie nodes to the `Thriller` Genre node and
 then matches users who rated each movie. It groups ratings by movie,
@@ -250,7 +247,7 @@ Observed examples:
 
 Screenshot: `screenshots/part3_query1.png`
 
-## Query 2 --- Users who gave more than 50 five-star ratings
+## Query 2 -Users who gave more than 50 five-star ratings
 
 The query matches users and their outgoing `RATED` relationships,
 filters relationships to rating 5, groups by user, and counts the
@@ -270,7 +267,7 @@ Observed examples:
 
 Screenshot: `screenshots/part3_query2.png`
 
-## Query 3 --- Movies rated highly by both User 1 and User 2
+## Query 3 -Movies rated highly by both User 1 and User 2
 
 The query matches User 1 and User 2 to the same Movie node through
 separate `RATED` relationships. It filters both ratings to values
@@ -289,7 +286,7 @@ Observed examples:
 
 Screenshot: `screenshots/part3_query3.png`
 
-## Query 4 --- Average rating and rating count by genre
+## Query 4 -Average rating and rating count by genre
 
 The query traverses from each Genre to its Movies and then to the Users
 who rated those movies. It groups rating data by genre, calculates the
@@ -316,7 +313,7 @@ context when interpreting averages.
 
 Screenshot: `screenshots/part3_query4.png`
 
-## Query 5 --- Recommendations based on users with similar tastes
+## Query 5 - Recommendations based on users with similar tastes
 
 The recommendation query uses User 1 as the target. It finds other users
 who rated the same movies and retains users whose ratings differ from
@@ -345,7 +342,7 @@ Observed examples:
 
 Screenshot: `screenshots/part3_query5.png`
 
-## Query 6 --- Shortest path between two users through movies
+## Query 6 -Shortest path between two users through movies
 
 The query finds User 1 and User 2 and uses `shortestPath()` over
 variable-length `RATED` relationships, traversable in either direction.
@@ -374,7 +371,7 @@ Screenshot: `screenshots/part3_query6.png`
 
 ------------------------------------------------------------------------
 
-# Part 4 --- Supernode detection
+# Part 4 -Supernode detection
 
 The queries are saved in `queries/part4_supernodes.cypher`.
 
@@ -469,7 +466,7 @@ Screenshots: `screenshots/part4_movies.png`,
 
 ------------------------------------------------------------------------
 
-# Part 6 --- Analysis and conclusions
+# Part 6 -Analysis and conclusions
 
 ## 6.1. Graph database versus SQL
 
@@ -541,7 +538,7 @@ analytical store for bulk reporting and exports.
 
 ## 6.3. Possible schema improvements
 
-**Improvement 1 --- Store precomputed rating aggregates on Movie nodes
+**Improvement 1 -Store precomputed rating aggregates on Movie nodes
 (Queries 1 and 4).**
 
 Queries 1 and 4 repeatedly traverse `RATED` relationships and calculate
@@ -553,7 +550,7 @@ relationship. The values would need to be updated when ratings are
 added, changed, or removed. Genre-level aggregates could also be
 maintained separately if genre reporting is frequent.
 
-**Improvement 2 --- Materialize user-similarity relationships (Queries 5
+**Improvement 2 -Materialize user-similarity relationships (Queries 5
 and 6).**
 
 Query 5 repeatedly discovers users with overlapping rating histories. A
@@ -565,7 +562,7 @@ same relationship could support a user-to-user path query for Query 6.
 These relationships are derived data and need a refresh strategy when
 ratings change.
 
-**Improvement 3 --- Keep genre lookup data on Movie nodes for selected
+**Improvement 3 -Keep genre lookup data on Movie nodes for selected
 filters (Queries 1 and 4).**
 
 A list property such as `genreNames` on Movie nodes could support
@@ -594,21 +591,3 @@ recommendation and path queries. Relational databases remain a strong
 choice for bulk aggregation, tabular reporting, and exports. The choice
 depends on the dominant access patterns, and a combined architecture can
 use each database for the tasks it handles best.
-
-------------------------------------------------------------------------
-
-## Submission checklist
-
--   [ ] Include `docker-compose.yml`.
--   [ ] Include `convert.py`.
--   [ ] Include the three converted CSV files in `import/` if required
-    for submission.
--   [ ] Include `queries/part2_load.cypher`.
--   [ ] Include `queries/part3.cypher`.
--   [ ] Include `queries/part4_supernodes.cypher`.
--   [ ] Add the Part 2 verification screenshot.
--   [ ] Add screenshots for all six Part 3 query results.
--   [ ] Add screenshots for Movie, Genre, and User degree results in
-    Part 4.
--   [ ] Part 5 can be omitted because it is optional.
--   [ ] Create the ZIP archive of the project for submission.
