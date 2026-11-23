@@ -1,0 +1,15 @@
+# Original MovieLens dataset
+*.dat
+*.zip
+
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+
+# Environment files
+.env
+
+# macOS
+.DS_Store
